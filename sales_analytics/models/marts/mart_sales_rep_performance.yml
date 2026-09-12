@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: mart_sales_rep_performance
+    description: >
+      Sales representative performance metrics.
+      Grain: one row per sales representative.
+
+    columns:
+      - name: sales_rep_id
+        tests:
+          - not_null
+          - unique
+
+      - name: opportunity_count
+
+      - name: won_opportunity_count
+
+      - name: total_pipeline_amount
+
+      - name: closed_won_amount
+
+      - name: order_count
+
+      - name: total_order_revenue
+
+      - name: win_rate

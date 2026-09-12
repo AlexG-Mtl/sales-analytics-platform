@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: crm
+    database: SALES_ANALYTICS
+    schema: RAW_CRM
+    tables:
+      - name: customers
+      - name: sales_reps
+      - name: opportunities
+      - name: orders
+
+  - name: hr
+    database: SALES_ANALYTICS
+    schema: RAW_HR
+    tables:
+      - name: employees
+      - name: departments

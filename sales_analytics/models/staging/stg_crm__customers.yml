@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: stg_crm__customers
+    description: Cleaned CRM customer records. One row per customer.
+
+    columns:
+      - name: customer_id
+        description: Unique customer identifier.
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_name
+        tests:
+          - not_null
+
+      - name: customer_email
+
+      - name: region
+
+      - name: created_at
+
+      - name: updated_at

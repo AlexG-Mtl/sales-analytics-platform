@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_crm__opportunities
+    description: Cleaned CRM opportunity records. One row per opportunity.
+
+    columns:
+      - name: opportunity_id
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        tests:
+          - not_null
+
+      - name: sales_rep_id
+        tests:
+          - not_null
+
+      - name: opportunity_stage
+        tests:
+          - not_null
+
+      - name: opportunity_amount

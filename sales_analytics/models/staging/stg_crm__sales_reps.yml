@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: stg_crm__sales_reps
+    description: Cleaned CRM sales representative records. One row per sales representative.
+
+    columns:
+      - name: sales_rep_id
+        tests:
+          - not_null
+          - unique
+
+      - name: employee_id
+        tests:
+          - not_null
+
+      - name: crm_rep_name
+        tests:
+          - not_null

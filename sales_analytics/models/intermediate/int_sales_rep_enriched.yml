@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: int_sales_rep_enriched
+    description: >
+      CRM sales representatives enriched with HR employee and department attributes.
+      One row per sales representative.
+
+    columns:
+      - name: sales_rep_id
+        tests:
+          - not_null
+          - unique
+
+      - name: employee_id
+        tests:
+          - not_null
+
+      - name: department_name
+
+      - name: employee_email
+
+      - name: salary

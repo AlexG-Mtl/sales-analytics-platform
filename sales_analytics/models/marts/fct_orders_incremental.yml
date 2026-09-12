@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: fct_orders_incremental
+    description: >
+      Incremental order fact table using a two-day lookback window
+      to capture late-arriving or recently updated records.
+      Grain: one row per order.
+
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        tests:
+          - not_null
+
+      - name: sales_rep_id
+        tests:
+          - not_null
+
+      - name: order_date
+        tests:
+          - not_null
+
+      - name: order_amount
+        tests:
+          - not_null
