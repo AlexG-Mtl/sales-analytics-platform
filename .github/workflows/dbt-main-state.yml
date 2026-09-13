@@ -1,35 +1,17 @@
-name: dbt CI
+name: dbt Main State
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
-permissions:
-  actions: read
-  contents: read      
-
 jobs:
-  dbt-ci:
+  dbt-main-state:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-
-      - name: Download latest main-state artifact
-        id: download-state
-        continue-on-error: true
-
-        uses: dawidd6/action-download-artifact@v6
-        with:
-          workflow: dbt-main-state.yml
-          branch: main
-          name: dbt-main-state
-          path: main-state
-          workflow_conclusion: success
-
 
       - name: Install uv
         uses: astral-sh/setup-uv@v6
@@ -62,23 +44,12 @@ jobs:
             target: ci
           EOF
 
-      - name: dbt debug
-        run: uv run dbt debug --project-dir sales_analytics
-
       - name: dbt build
-        run: |
-          if [ -f main-state/manifest.json ]; then
-            echo "Main-state manifest found. Running Slim CI."
+        run: uv run dbt build --project-dir sales_analytics
 
-            uv run dbt build \
-              --project-dir sales_analytics \
-              --select state:modified+ \
-              --state main-state \
-              --defer \
-              --favor-state
-          else
-            echo "No main-state manifest found. Running full dbt build."
-
-            uv run dbt build \
-              --project-dir sales_analytics
-          fi
+      - name: Upload dbt manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: dbt-main-state
+          path: sales_analytics/target/manifest.json
+          retention-days: 30
