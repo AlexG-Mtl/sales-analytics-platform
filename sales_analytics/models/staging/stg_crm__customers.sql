@@ -1,3 +1,11 @@
+{{ config(
+    post_hook="
+        ALTER VIEW {{ this }}
+        MODIFY COLUMN CUSTOMER_EMAIL
+        SET MASKING POLICY SALES_ANALYTICS.GOVERNANCE.EMAIL_MASK
+    "
+) }}
+
 with source as (
 
     select *
