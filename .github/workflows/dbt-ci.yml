@@ -1,0 +1,51 @@
+name: dbt CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  dbt-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Create Snowflake private key
+        run: |
+          mkdir -p ~/.snowflake/keys
+          printf '%s\n' "${{ secrets.SNOWFLAKE_PRIVATE_KEY }}" > ~/.snowflake/keys/ai_dwh_svc_key.p8
+          chmod 600 ~/.snowflake/keys/ai_dwh_svc_key.p8
+
+      - name: Create dbt profile
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml <<EOF
+          sales_analytics:
+            outputs:
+              ci:
+                type: snowflake
+                account: "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+                user: "${{ secrets.SNOWFLAKE_USER }}"
+                private_key_path: /home/runner/.snowflake/keys/ai_dwh_svc_key.p8
+                role: "${{ secrets.SNOWFLAKE_ROLE }}"
+                warehouse: "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+                database: "${{ secrets.SNOWFLAKE_DATABASE }}"
+                schema: "${{ secrets.SNOWFLAKE_SCHEMA }}"
+                threads: 4
+            target: ci
+          EOF
+
+      - name: dbt debug
+        run: uv run dbt debug --project-dir sales_analytics
+
+      - name: dbt build
+        run: uv run dbt build --project-dir sales_analytics        
