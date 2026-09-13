@@ -1,3 +1,4 @@
+-- Slim CI test: validate state-based selection
 with source as (
 
     select *
