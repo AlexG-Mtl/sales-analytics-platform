@@ -73,7 +73,7 @@ jobs:
             uv run dbt build \
               --project-dir sales_analytics \
               --select state:modified+ \
-              --state main-state \
+              --state "${GITHUB_WORKSPACE}/main-state" \
               --defer \
               --favor-state
           else
