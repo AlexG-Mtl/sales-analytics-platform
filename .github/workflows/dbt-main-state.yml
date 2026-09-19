@@ -38,7 +38,7 @@ jobs:
                 private_key_path: /home/runner/.snowflake/keys/ai_dwh_svc_key.p8
                 role: "${{ secrets.SNOWFLAKE_ROLE }}"
                 warehouse: "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
-                database: "${{ secrets.SNOWFLAKE_DATABASE }}"
+                database: SALES_ANALYTICS_CI
                 schema: "${{ secrets.SNOWFLAKE_SCHEMA }}"
                 threads: 4
             target: ci
