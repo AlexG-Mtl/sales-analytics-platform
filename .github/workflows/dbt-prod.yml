@@ -32,7 +32,7 @@ jobs:
           cat > ~/.dbt/profiles.yml <<'EOF'
           sales_analytics:
             outputs:
-              dev:
+              prod:
                 type: snowflake
                 account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
                 user: ${{ secrets.SNOWFLAKE_USER }}
@@ -42,7 +42,7 @@ jobs:
                 database: SALES_ANALYTICS_PROD
                 schema: STAGING
                 threads: 4
-            target: dev
+            target: prod
           EOF
 
       - name: Check source freshness

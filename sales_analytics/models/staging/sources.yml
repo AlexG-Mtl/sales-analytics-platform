@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: crm
-    database: SALES_ANALYTICS
+     database: "{{ target.database }}"
     schema: RAW_CRM
     tables:
       - name: customers
@@ -20,7 +20,7 @@ sources:
               period: hour     
 
   - name: hr
-    database: SALES_ANALYTICS
+     database: "{{ target.database }}"
     schema: RAW_HR
     tables:
       - name: employees
