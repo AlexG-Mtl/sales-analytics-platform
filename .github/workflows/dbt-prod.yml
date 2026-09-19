@@ -42,15 +42,34 @@ jobs:
                 database: SALES_ANALYTICS_PROD
                 schema: STAGING
                 threads: 4
+              prod_build:
+                type: snowflake
+                account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+                user: ${{ secrets.SNOWFLAKE_USER }}
+                private_key_path: /home/runner/.snowflake/keys/ai_dwh_svc_key.p8
+                role: ${{ secrets.SNOWFLAKE_ROLE }}
+                warehouse: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+                database: SALES_ANALYTICS_PROD
+                schema: BUILD
+                threads: 4
+
             target: prod
           EOF
 
       - name: Check source freshness
         run: |
           uv run dbt source freshness \
-            --project-dir sales_analytics
+            --project-dir sales_analytics \
+            --target prod
 
       - name: Run dbt build
         run: |
           uv run dbt build \
-            --project-dir sales_analytics
+            --project-dir sales_analytics \
+            --target prod_build
+
+      - name: Publish validated mart
+        run: |
+          uv run dbt run-operation publish_marts \
+            --project-dir sales_analytics \
+            --target prod
