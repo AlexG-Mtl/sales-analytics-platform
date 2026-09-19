@@ -5,16 +5,13 @@
     {% set publish_sql %}
 
         CREATE OR REPLACE SCHEMA {{ database }}.STAGING
-        CLONE {{ database }}.BUILD_STAGING
-        COPY GRANTS;
+        CLONE {{ database }}.BUILD_STAGING;
 
         CREATE OR REPLACE SCHEMA {{ database }}.CORE
-        CLONE {{ database }}.BUILD_CORE
-        COPY GRANTS;
+        CLONE {{ database }}.BUILD_CORE;
 
         CREATE OR REPLACE SCHEMA {{ database }}.MARTS
-        CLONE {{ database }}.BUILD_MARTS
-        COPY GRANTS;
+        CLONE {{ database }}.BUILD_MARTS;
 
     {% endset %}
 
