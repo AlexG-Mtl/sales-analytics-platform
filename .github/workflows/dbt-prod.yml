@@ -70,6 +70,6 @@ jobs:
 
       - name: Publish validated mart
         run: |
-          uv run dbt run-operation publish_marts \
+          uv run dbt run-operation publish_production \
             --project-dir sales_analytics \
             --target prod
