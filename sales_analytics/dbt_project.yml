@@ -33,9 +33,17 @@ models:
   sales_analytics:
     staging:
       +materialized: view
+      +schema: staging
+
 
     intermediate:
       +materialized: ephemeral
 
+    core:
+      +materialized: table
+      +schema: core
+  
+
     marts:
       +materialized: table
+      +schema: marts 
