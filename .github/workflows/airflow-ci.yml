@@ -27,3 +27,8 @@ jobs:
       - name: Build Airflow image
         working-directory: airflow
         run: docker build -t sales-analytics-airflow-ci .
+
+      - name: Validate Airflow DAG imports
+        run: |
+          docker run --rm sales-analytics-airflow-ci python -c \
+          "from airflow.dag_processing.dagbag import DagBag; d=DagBag('/usr/local/airflow/dags', include_examples=False); print('Import errors:', d.import_errors); raise SystemExit(1 if d.import_errors else 0)"
