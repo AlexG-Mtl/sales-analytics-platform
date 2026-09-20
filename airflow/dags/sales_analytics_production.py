@@ -8,6 +8,9 @@ from airflow.operators.empty import EmptyOperator
 DBT_PROJECT_DIR = "/usr/local/airflow/include/sales_analytics"
 DBT_PROFILES_DIR = "/usr/local/airflow/include"
 
+DBT_TARGET_PATH = "/tmp/dbt/sales_analytics/target"
+DBT_LOG_PATH = "/tmp/dbt/sales_analytics/logs"
+
 
 default_args = {
     "owner": "data-engineering",
@@ -36,6 +39,8 @@ with DAG(
         dbt source freshness \
           --project-dir {DBT_PROJECT_DIR} \
           --profiles-dir {DBT_PROFILES_DIR} \
+          --target-path {DBT_TARGET_PATH} \
+          --log-path {DBT_LOG_PATH} \
           --target prod
         """,
     )
@@ -47,6 +52,8 @@ with DAG(
         dbt build \
           --project-dir {DBT_PROJECT_DIR} \
           --profiles-dir {DBT_PROFILES_DIR} \
+          --target-path {DBT_TARGET_PATH} \
+          --log-path {DBT_LOG_PATH} \
           --target prod_build
         """,
     )
@@ -58,6 +65,8 @@ with DAG(
         dbt run-operation publish_production \
           --project-dir {DBT_PROJECT_DIR} \
           --profiles-dir {DBT_PROFILES_DIR} \
+          --target-path {DBT_TARGET_PATH} \
+          --log-path {DBT_LOG_PATH} \
           --target prod
         """,
     )
