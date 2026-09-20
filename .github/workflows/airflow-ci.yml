@@ -1,0 +1,25 @@
+name: Airflow CI
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "airflow/**"
+      - "sales_analytics/**"
+      - ".github/workflows/airflow-ci.yml"
+
+jobs:
+  validate-airflow-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Package dbt project for Airflow
+        working-directory: airflow
+        run: ./scripts/package_dbt.sh
+
+      - name: Verify packaged dbt project
+        run: test -f airflow/include/sales_analytics/dbt_project.yml
