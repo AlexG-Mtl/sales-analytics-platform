@@ -23,3 +23,7 @@ jobs:
 
       - name: Verify packaged dbt project
         run: test -f airflow/include/sales_analytics/dbt_project.yml
+
+      - name: Build Airflow image
+        working-directory: airflow
+        run: docker build -t sales-analytics-airflow-ci .
